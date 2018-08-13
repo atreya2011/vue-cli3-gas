@@ -1,8 +1,11 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
+import { syncGas } from "./router-gas-sync";
 
 Vue.config.productionTip = false;
+
+syncGas(router);
 
 new Vue({
   router,
