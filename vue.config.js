@@ -38,5 +38,9 @@ module.exports = {
   },
   configureWebpack: {
     devtool: "inline-source-map"
+  },
+  css: {
+    extract: false,
+    sourceMap: true
   }
 };
