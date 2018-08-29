@@ -4,16 +4,7 @@ module.exports = {
       return;
     }
 
-    config.plugins.delete("prefetch");
-    config.plugins.delete("preload");
-
-    config.plugin("html").tap(args => {
-      args[0].inject = false;
-      args[0].minify.removeAttributeQuotes = false;
-      args[0].minify.removeScriptTypeAttributes = false;
-      return args;
-    });
-
+    // inline image
     config.module
       .rule("images")
       .use("url-loader")
@@ -21,6 +12,22 @@ module.exports = {
         delete options.limit;
         return options;
       });
+
+    // inline svg
+    const svgFileLoaderConfig = config.module
+      .rule("svg")
+      .use("file-loader")
+      .toConfig();
+    config.module.rule("svg").uses.delete("file-loader");
+    config.module
+      .rule("svg")
+      .use("url-loader")
+      .loader("url-loader")
+      .options({
+        fallback: svgFileLoaderConfig
+      });
+
+    // inline media
     config.module
       .rule("media")
       .use("url-loader")
@@ -28,6 +35,8 @@ module.exports = {
         delete options.limit;
         return options;
       });
+
+    // inline font
     config.module
       .rule("fonts")
       .use("url-loader")
@@ -35,9 +44,26 @@ module.exports = {
         delete options.limit;
         return options;
       });
+
+    // disable prefetch and  preload
+    config.plugins.delete("prefetch");
+    config.plugins.delete("preload");
+
+    // configure adjust to GAS
+    config.plugin("html").tap(args => {
+      args[0].inject = false;
+      args[0].minify.removeAttributeQuotes = false;
+      args[0].minify.removeScriptTypeAttributes = false;
+      return args;
+    });
   },
   configureWebpack: {
-    devtool: "inline-source-map"
+    devtool: "inline-source-map",
+    externals: {
+      vue: "Vue",
+      "vue-router": "VueRouter",
+      vuetify: "Vuetify"
+    }
   },
   css: {
     extract: false,
