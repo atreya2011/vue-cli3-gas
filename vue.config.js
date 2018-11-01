@@ -1,9 +1,5 @@
-module.exports = {
+const productionConfig = {
   chainWebpack: config => {
-    if (process.env.NODE_ENV !== "production") {
-      return;
-    }
-
     // inline image
     config.module
       .rule("images")
@@ -45,7 +41,7 @@ module.exports = {
         return options;
       });
 
-    // disable prefetch and  preload
+    // disable prefetch and preload
     config.plugins.delete("prefetch");
     config.plugins.delete("preload");
 
@@ -62,7 +58,8 @@ module.exports = {
     externals: {
       vue: "Vue",
       "vue-router": "VueRouter",
-      vuetify: "Vuetify"
+      Vuetify: "Vuetify",
+      "vuetify/dist/vuetify.min.css": "undefined"
     }
   },
   css: {
@@ -70,3 +67,5 @@ module.exports = {
     sourceMap: true
   }
 };
+
+module.exports = process.env.NODE_ENV === "production" ? productionConfig : {};

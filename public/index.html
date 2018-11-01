@@ -1,3 +1,4 @@
+<% const packageJson = require('../package.json') %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -5,18 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <title>vue-cli3-gas</title>
-    <% for (cssFile of htmlWebpackPlugin.files.css) { %>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons' rel="stylesheet">
+<% if (process.env.NODE_ENV === 'production') { %>
+    <link href="https://unpkg.com/vuetify@<%=packageJson.dependencies.vuetify %>/dist/vuetify.min.css" rel="stylesheet">
+  <% for (cssFile of htmlWebpackPlugin.files.css) { %>
     <style type="text/css"><%= compilation.assets[cssFile.substr(htmlWebpackPlugin.files.publicPath.length)].source() %></style>
-    <% } %>
+  <% } %>
+<% } %>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but vue-cli3-gas doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
     <div id="app"></div>
-    <!-- built files will be auto injected -->
-    <% for (jsFile of htmlWebpackPlugin.files.js) { %>
+    <script src="https://apis.google.com/js/api.js"></script>
+<% if (process.env.NODE_ENV === 'production') { %>
+  <% for (dependency of Object.entries(packageJson.dependencies)) { %>
+    <script src="https://unpkg.com/<%= dependency.join('@') %>"></script>
+  <% } %>
+  <% for (jsFile of htmlWebpackPlugin.files.js) { %>
     <script type="text/javascript"><%= compilation.assets[jsFile.substr(htmlWebpackPlugin.files.publicPath.length)].source() %></script>
-    <% } %>
+  <% } %>
+<% } %>
   </body>
 </html>

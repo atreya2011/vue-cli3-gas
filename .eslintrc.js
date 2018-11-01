@@ -6,7 +6,8 @@ module.exports = {
   extends: ['plugin:vue/essential', '@vue/prettier'],
   // allow google.script client-side api
   globals: {
-    google: true
+    google: true,
+    gapi: true
   },
   rules: {
     'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',

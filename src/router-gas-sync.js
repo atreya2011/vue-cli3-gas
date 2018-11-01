@@ -1,5 +1,5 @@
 export const syncGas = router => {
-  if (!window.google) {
+  if (!(window.google && google.script)) {
     return;
   }
 

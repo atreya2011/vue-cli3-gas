@@ -1,18 +1,19 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-layout row wrap="" align-content-start>
+    <v-flex xs12>
+      <copy-file/>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from "@/components/HelloWorld.vue";
+import CopyFile from "@/components/CopyFile.vue";
 
 export default {
   name: "home",
   components: {
-    HelloWorld
+    CopyFile
   }
 };
 </script>
